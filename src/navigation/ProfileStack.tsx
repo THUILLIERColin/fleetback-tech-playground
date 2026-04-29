@@ -1,6 +1,14 @@
+//#region react imports
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+//#endregion
+
+//#region type imports
 import type { ProfileStackParamList } from './types';
-import ProfileScreen from '../screens/ProfileScreen';
+//#endregion
+w
+//#region screen imports
+import ProfileScreen from '@/screens/ProfileScreen';
+//#endregion
 
 const Stack = createNativeStackNavigator<ProfileStackParamList>();
 
@@ -9,7 +17,7 @@ export default function ProfileStack() {
     <Stack.Navigator
       screenOptions={{
         headerStyle: { backgroundColor: '#1a1a2e' },
-        headerTintColor: '#db0707',
+        headerTintColor: '#fff',
         headerTitleStyle: { fontWeight: '600' },
       }}
     >

@@ -1,9 +1,16 @@
-// src/navigation/RootNavigator.tsx
+//#region packages imports
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { CarFront, PersonStandingIcon } from 'lucide-react-native';
+//#endregion
+
+//#region type imports
 import type { RootTabParamList } from './types';
+//#endregion
+
+//#region stack imports
 import VehiclesStack from './VehiclesStack';
 import ProfileStack from './ProfileStack';
-import { CarFront, PersonStandingIcon } from 'lucide-react-native';
+//#endregion
 
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -12,7 +19,7 @@ export default function RootNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: false, // chaque stack gère son propre header
+        headerShown: false, // each stack will handle its own header
         tabBarActiveTintColor: '#4ffa00',
       }}
     >

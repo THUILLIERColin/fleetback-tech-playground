@@ -1,7 +1,10 @@
-// src/stores/StoreContext.tsx
+//#region react imports
 import { createContext, useContext } from 'react';
-import { vehicleStore } from './VehicleStore';
+//#endregion
 
+//#region store imports
+import { vehicleStore } from '@/stores/VehicleStore';
+//#endregion
 
 const StoreContext = createContext({ vehicleStore });
 

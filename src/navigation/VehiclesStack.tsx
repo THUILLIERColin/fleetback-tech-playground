@@ -1,10 +1,15 @@
-// src/navigation/VehiclesStack.tsx
+//#region react imports
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+//#endregion
+
+//#region type imports
 import type { VehiclesStackParamList } from './types';
-import VehiclesListScreen from '../screens/VehiclesListScreen';
-import VehicleDetailScreen from '../screens/VehicleDetailScreen';
-import { CarFront } from 'lucide-react-native';
-import { View } from 'react-native';
+//#endregion
+
+//#region screen imports
+import VehiclesListScreen from '@/screens/VehiclesListScreen';
+import VehicleDetailScreen from '@/screens/VehicleDetailScreen';
+//#endregion
 
 const Stack = createNativeStackNavigator<VehiclesStackParamList>();
 
@@ -28,8 +33,7 @@ export default function VehiclesStack() {
         name="VehicleDetail"
         component={VehicleDetailScreen}
         options={({ route }) => ({
-          // ✅ `route.params` est typé — TypeScript sait que plate existe
-          title: route.params.vehicleId, // --- IGNORE ---
+          title: route.params.vehicleId,
         })}
       />
     </Stack.Navigator>

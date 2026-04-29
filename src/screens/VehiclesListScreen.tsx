@@ -1,15 +1,27 @@
-// src/screens/VehiclesListScreen.tsx
-import { FlatList, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+//#region react imports
+import React, { useCallback } from 'react';
+import { StyleSheet, View, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
-import type { VehiclesListNavigationProp } from '../navigation/types';
-import type { Vehicle } from '../data/vehicles';
-import VehicleItem from '../components/VehicleItem';
-import { useStores } from '../stores/StoreContext';
-import React from 'react';
+//#endregion
 
-const ITEM_HEIGHT = 80;
+//#region types imports
+import type { VehiclesListNavigationProp } from '@/navigation/types';
+import type { Vehicle } from '@/types/vehicle';
+//#endregion
+
+//#region store imports
+import { useStores } from '@/stores/StoreContext';
+//#endregion
+
+//#region component imports
+import VehicleList from '@/components/VehicleList';
+//#endregion
+
+//region hooks imports
+import { useLoadVehicles } from '@/hooks/useLoadVehicles';
+//endregion
+
 const FILTERS = ['all', 'available', 'in_repair', 'rented'] as const;
 const FILTER_LABEL: Record<typeof FILTERS[number], string> = {
   all: 'Tous',
@@ -18,47 +30,46 @@ const FILTER_LABEL: Record<typeof FILTERS[number], string> = {
   rented: 'Loué',
 };
 
-const VehicleList = React.memo(({ 
-  vehicles, 
-  onPress 
-}: { 
-  vehicles: Vehicle[]; 
-  onPress: (v: Vehicle) => void;
-}) => {
-  const keyExtractor = useCallback((item: Vehicle) => item.id, []);
-
-  const getItemLayout = useCallback((_: unknown, index: number) => ({
-    length: ITEM_HEIGHT,
-    offset: ITEM_HEIGHT * index,
-    index,
-  }), []);
-
-  const renderItem = useCallback(({ item }: { item: Vehicle }) => (
-    <VehicleItem vehicle={item} onPress={onPress} />
-  ), [onPress]);
-
-  return (
-    <FlatList
-      data={vehicles}
-      renderItem={renderItem}
-      keyExtractor={keyExtractor}
-      getItemLayout={getItemLayout}
-      initialNumToRender={15}
-      maxToRenderPerBatch={10}
-      windowSize={5}
-      removeClippedSubviews={true}
-      style={styles.list}
-    />
-  );
-});
 
 const VehiclesListScreen = observer(() => {
+
+  /* 
+  Le fait de séparer la list et l'observer permet d'éviter que tout 
+  le composant soit réévalué à chaque changement de filtre ou de sélection. 
+  Seule la list est concernée par ces changements, pas les autres éléments 
+  (boutons de filtre, état de chargement, etc.). 
+  C'est une bonne pratique pour optimiser les performances avec MobX. 
+  (smart/dumb components)
+  */
+
   const navigation = useNavigation<VehiclesListNavigationProp>();
   const { vehicleStore } = useStores();
+  const { loadingState, error, retry } = useLoadVehicles();
 
   const handlePress = useCallback((vehicle: Vehicle) => {
     navigation.navigate('VehicleDetail', { vehicleId: vehicle.id });
   }, [navigation]);
+
+  if (loadingState === 'loading') {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="#4f46e5" />
+        <Text style={styles.loadingText}>Chargement des véhicules...</Text>
+      </View>
+    );
+  }
+
+  // état erreur
+  if (loadingState === 'error') {
+    return (
+      <View style={styles.centered}>
+        <Text style={styles.errorText}>{error}</Text>
+        <TouchableOpacity style={styles.retryBtn} onPress={retry}>
+          <Text style={styles.retryText}>Réessayer</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -105,5 +116,9 @@ const styles = StyleSheet.create({
   filterBtnActive: { backgroundColor: '#4f46e5', borderColor: '#4f46e5' },
   filterText: { fontSize: 12, color: '#6b7280' },
   filterTextActive: { color: '#fff' },
-  list: { flex: 1 },
+  centered: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 },
+  loadingText: { fontSize: 14, color: '#6b7280' },
+  errorText: { fontSize: 14, color: '#dc2626', textAlign: 'center', paddingHorizontal: 24 },
+  retryBtn: { paddingHorizontal: 20, paddingVertical: 10, backgroundColor: '#4f46e5', borderRadius: 8 },
+  retryText: { color: '#fff', fontWeight: '600' },
 });

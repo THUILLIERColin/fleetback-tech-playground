@@ -1,5 +1,6 @@
-// src/screens/ProfileScreen.tsx
+//#region react imports
 import { View, Text, StyleSheet } from 'react-native';
+//#endregion
 
 export default function ProfileScreen() {
   return (
