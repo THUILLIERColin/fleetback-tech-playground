@@ -8,7 +8,7 @@ import VehicleItem from '@/components/VehicleItem';
 //#endregion
 
 //#region data
-import type { Vehicle } from '@/types/Vehicle';
+import type { Vehicle } from '@/types/vehicle';
 //#endregion
 
 //#region constants

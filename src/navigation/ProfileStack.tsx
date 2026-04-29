@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 //#region type imports
 import type { ProfileStackParamList } from './types';
 //#endregion
-w
+
 //#region screen imports
 import ProfileScreen from '@/screens/ProfileScreen';
 //#endregion

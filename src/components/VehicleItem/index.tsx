@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 //#endregion
 
 //#region types
-import type { Vehicle } from "@/types/Vehicle";
+import type { Vehicle } from "@/types/vehicle";
 //#endregion
 
 //#region constants

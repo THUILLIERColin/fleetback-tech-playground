@@ -1,4 +1,4 @@
-import type { Vehicle } from "@/types/Vehicle";
+import type { Vehicle } from "@/types/vehicle";
 
 export const STATUS_COLOR: Record<Vehicle["status"], string> = {
   available: "#16a34a",
