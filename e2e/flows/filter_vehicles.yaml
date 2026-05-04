@@ -1,0 +1,20 @@
+appId: com.colin.fleetback
+---
+- launchApp
+- waitForAnimationToEnd
+
+# Click on "Disponible" to filter available vehicles
+- tapOn: "Disponible"
+
+# Check that the vehicle with license plate "AB-100-CD" is visible (available)
+- assertVisible:
+    id: "vehicle-item-AB-100-CD"
+
+# Check that the vehicle with license plate "AB-101-CD" is not visible (not available)
+- assertNotVisible:
+    id: "vehicle-item-AB-101-CD"
+
+# Check if in all vehicles list, the vehicle with license plate "AB-101-CD" is visible
+- tapOn: "Tous"
+- assertVisible:
+    id: "vehicle-item-AB-101-CD"

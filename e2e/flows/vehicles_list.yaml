@@ -1,0 +1,10 @@
+appId: com.colin.fleetback
+---
+- launchApp
+- assertVisible: "Véhicules"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: "vehicle-item-AB-105-CD"
+    timeout: 8000
+- takeScreenshot: vehicles_list
