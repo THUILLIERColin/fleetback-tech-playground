@@ -18,7 +18,11 @@ type VehicleItemProps = {
 
 function VehicleItem({ vehicle, onPress }: VehicleItemProps) {
     return (
-        <TouchableOpacity style={styles.container} onPress={() => onPress(vehicle)}>
+        <TouchableOpacity
+            style={styles.container}
+            testID={`vehicle-item-${vehicle.plate}`}
+            onPress={() => onPress(vehicle)}
+        >
             <View style={styles.left}>
                 <Text style={styles.plate}>{vehicle.plate}</Text>
                 <Text style={styles.sub}>
